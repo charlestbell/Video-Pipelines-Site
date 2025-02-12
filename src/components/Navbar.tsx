@@ -23,7 +23,7 @@ const NavLink = ({
   >
     <Link href={href}>
       <motion.span
-        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+        className="text-gray-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -45,7 +45,7 @@ export default function Navbar() {
     <motion.nav
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="fixed w-full z-50 bg-black/80 backdrop-blur-sm"
+      className="fixed w-full z-50 bg-[#282C30] bg-opacity-95 backdrop-blur-sm"
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-row items-center gap-8 h-24">

@@ -8,8 +8,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        dark: "#121212",
-        "dark-lighter": "#1e1e1e",
+        "base-dark": "#1E2124",
+        "input-dark": "#282C30",
+        "button-dark": "#3A3F44",
+        "button-hover": "#444A50",
       },
     },
   },
