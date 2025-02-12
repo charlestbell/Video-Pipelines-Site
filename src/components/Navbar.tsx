@@ -28,27 +28,23 @@ export default function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       className="fixed w-full z-50 bg-black/80 backdrop-blur-sm"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          <div className="flex-shrink-0">
-            <Link href="/">
-              <Image
-                src="/vp_logo.jpg"
-                alt="Video Pipelines Logo"
-                width={50}
-                height={50}
-                className="rounded-full"
-              />
-            </Link>
-          </div>
+      <div className="container mx-auto px-4">
+        <div className="flex flex-row items-center gap-8 h-24">
+          <Link href="/" className="flex-shrink-0">
+            <Image
+              src="/vp_logo.jpg"
+              alt="Video Pipelines Logo"
+              width={200}
+              height={200}
+              className="rounded-full"
+            />
+          </Link>
 
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              <NavLink href="/recent-work">Recent Work</NavLink>
-              <NavLink href="/stills">Stills</NavLink>
-              <NavLink href="/about">About</NavLink>
-              <NavLink href="/contact">Contact</NavLink>
-            </div>
+          <div className="flex flex-row items-center gap-8">
+            <NavLink href="/recent-work">Recent Work</NavLink>
+            <NavLink href="/stills">Stills</NavLink>
+            <NavLink href="/about">About</NavLink>
+            <NavLink href="/contact">Contact</NavLink>
           </div>
         </div>
       </div>
