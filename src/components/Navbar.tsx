@@ -1,7 +1,40 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
+
+const AnimatedCharacters = ({
+  text,
+  bold = false,
+}: {
+  text: string;
+  bold?: boolean;
+}) => {
+  return (
+    <span className={bold ? "font-bold" : ""}>
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={index}
+          initial={{ opacity: 0, y: -5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.05 * index,
+            ease: "easeOut",
+          }}
+          className="inline-block"
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </span>
+  );
+};
 
 const NavLink = ({
   href,
@@ -17,7 +50,7 @@ const NavLink = ({
     animate={{ opacity: 1, y: 0 }}
     transition={{
       duration: 0.5,
-      delay: 0.1 + index * 0.1, // Starting from 0.1s, with 0.1s between each
+      delay: 0.5 + index * 0.1,
       ease: "easeOut",
     }}
   >
@@ -49,25 +82,11 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-row items-center gap-8 h-24">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.5,
-              delay: 0.1, // Same initial delay as first nav item
-              ease: "easeOut",
-            }}
-          >
-            <Link href="/" className="flex-shrink-0">
-              <Image
-                src="/vp_logo.jpg"
-                alt="Video Pipelines Logo"
-                width={200}
-                height={200}
-                className="rounded-full"
-              />
-            </Link>
-          </motion.div>
+          <Link href="/" className="flex-shrink-0">
+            <span className={`${roboto.className} text-xl text-gray-100`}>
+              <AnimatedCharacters text="Video Pipelines" bold />
+            </span>
+          </Link>
 
           <div className="flex flex-row items-center gap-8">
             {navItems.map((item, index) => (
