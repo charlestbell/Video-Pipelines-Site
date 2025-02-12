@@ -82,7 +82,7 @@ const VideoCard = ({
 
 export default function Home() {
   return (
-    <div className="min-h-screen pt-32 px-4 max-w-4xl mx-auto">
+    <div className="min-h-screen pt-32 pb-16 px-4 max-w-4xl mx-auto">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
