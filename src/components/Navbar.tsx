@@ -11,9 +11,13 @@ const roboto = Roboto({
 const AnimatedCharacters = ({
   text,
   bold = false,
+  delay,
+  className,
 }: {
   text: string;
   bold?: boolean;
+  delay: number;
+  className: string;
 }) => {
   return (
     <span className={bold ? "font-bold" : ""}>
@@ -24,10 +28,10 @@ const AnimatedCharacters = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{
             duration: 0.5,
-            delay: 0.05 * index,
+            delay: delay + 0.05 * index,
             ease: "easeOut",
           }}
-          className="inline-block"
+          className={`inline-block ${className || ""}`}
         >
           {char === " " ? "\u00A0" : char}
         </motion.span>
@@ -83,8 +87,18 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex flex-row items-center gap-8 h-24">
           <Link href="/" className="flex-shrink-0">
-            <span className={`${roboto.className} text-xl text-gray-100`}>
-              <AnimatedCharacters text="Video Pipelines" bold />
+            <span className={`${roboto.className} text-2xl text-gray-100`}>
+              <AnimatedCharacters
+                delay={0}
+                text="Video Pipelines"
+                bold
+                className=""
+              />
+              <AnimatedCharacters
+                delay={0.8}
+                text=", LLC"
+                className="text-base"
+              />
             </span>
           </Link>
 
