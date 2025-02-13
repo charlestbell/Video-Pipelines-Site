@@ -4,6 +4,96 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 
+interface ContentSection {
+  title: string;
+  text: string;
+  image: string;
+  imageAlt: string;
+}
+
+const aboutContent: ContentSection[] = [
+  {
+    title: "Hi, I'm C.T. Bell",
+    text: "With over a decade of experience in filmmaking, I've dedicated my career to capturing moments that tell compelling stories.",
+    image: "/about1.jpg",
+    imageAlt: "C.T. Bell at work",
+  },
+  {
+    title: "Crafting Visual Stories",
+    text: "My approach combines technical precision with artistic vision. Each project is an opportunity to create something unique that resonates with audiences on a deeper level.",
+    image: "/about2.jpg",
+    imageAlt: "Behind the scenes",
+  },
+  {
+    title: "Beyond the Lens",
+    text: "When I'm not behind the camera, I'm constantly exploring new techniques and technologies to push the boundaries of what's possible in visual storytelling.",
+    image: "/about3.jpg",
+    imageAlt: "Creative process",
+  },
+];
+
+interface ContentBlockProps {
+  content: ContentSection;
+  fromLeft: boolean;
+}
+
+const ContentBlock = ({ content, fromLeft }: ContentBlockProps) => {
+  const textContent = (
+    <div className="w-full md:w-1/2 px-4 flex flex-col justify-center">
+      <div className="space-y-4">
+        <h2
+          className={`${
+            content.title.includes("Hi,") ? "text-4xl md:text-5xl" : "text-2xl"
+          } font-bold text-gray-100`}
+        >
+          {content.title}
+        </h2>
+        <p
+          className={`text-gray-300 ${
+            content.title.includes("Hi,") ? "text-lg" : ""
+          }`}
+        >
+          {content.text}
+        </p>
+      </div>
+    </div>
+  );
+
+  const imageContent = (
+    <div className="w-full md:w-1/2 px-4">
+      <div className="relative w-full aspect-square">
+        <Image
+          src={content.image}
+          alt={content.imageAlt}
+          fill
+          className="rounded-lg shadow-lg object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          priority={content.title.includes("Hi,")}
+          onError={(e) => {
+            console.error(`Error loading image: ${content.image}`);
+          }}
+        />
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col md:flex-row w-full">
+      {fromLeft ? (
+        <>
+          {textContent}
+          {imageContent}
+        </>
+      ) : (
+        <>
+          {imageContent}
+          {textContent}
+        </>
+      )}
+    </div>
+  );
+};
+
 interface FadeInSectionProps {
   children: React.ReactNode;
   fromLeft?: boolean;
@@ -13,8 +103,8 @@ const FadeInSection = ({ children, fromLeft = true }: FadeInSectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
-    amount: 0.3, // Trigger when 30% of element is in view
-    margin: "0px 0px -200px 0px", // Negative margin to trigger earlier
+    amount: 0.3,
+    margin: "0px 0px -200px 0px",
   });
 
   return (
@@ -37,68 +127,11 @@ const FadeInSection = ({ children, fromLeft = true }: FadeInSectionProps) => {
 export default function About() {
   return (
     <div className="min-h-screen pt-32 px-4 max-w-6xl mx-auto">
-      <FadeInSection fromLeft={true}>
-        <div className="md:w-1/2 space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-100">
-            Hi, I'm C.T. Bell
-          </h1>
-          <p className="text-gray-300 text-lg">
-            With over a decade of experience in filmmaking, I've dedicated my
-            career to capturing moments that tell compelling stories.
-          </p>
-        </div>
-        <div className="md:w-1/2">
-          <Image
-            src="/about1.jpg"
-            alt="C.T. Bell at work"
-            width={600}
-            height={400}
-            className="rounded-lg shadow-lg"
-          />
-        </div>
-      </FadeInSection>
-
-      <FadeInSection fromLeft={false}>
-        <div className="md:w-1/2 md:order-2 space-y-4">
-          <h2 className="text-2xl font-bold text-gray-100">
-            Crafting Visual Stories
-          </h2>
-          <p className="text-gray-300">
-            My approach combines technical precision with artistic vision. Each
-            project is an opportunity to create something unique that resonates
-            with audiences on a deeper level.
-          </p>
-        </div>
-        <div className="md:w-1/2 md:order-1">
-          <Image
-            src="/about2.jpg"
-            alt="Behind the scenes"
-            width={600}
-            height={400}
-            className="rounded-lg shadow-lg"
-          />
-        </div>
-      </FadeInSection>
-
-      <FadeInSection fromLeft={true}>
-        <div className="md:w-1/2 space-y-4">
-          <h2 className="text-2xl font-bold text-gray-100">Beyond the Lens</h2>
-          <p className="text-gray-300">
-            When I'm not behind the camera, I'm constantly exploring new
-            techniques and technologies to push the boundaries of what's
-            possible in visual storytelling.
-          </p>
-        </div>
-        <div className="md:w-1/2">
-          <Image
-            src="/about3.jpg"
-            alt="Creative process"
-            width={600}
-            height={400}
-            className="rounded-lg shadow-lg"
-          />
-        </div>
-      </FadeInSection>
+      {aboutContent.map((content, index) => (
+        <FadeInSection key={content.title} fromLeft={index % 2 === 0}>
+          <ContentBlock content={content} fromLeft={index % 2 === 0} />
+        </FadeInSection>
+      ))}
     </div>
   );
 }
