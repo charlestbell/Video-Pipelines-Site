@@ -108,16 +108,14 @@ export default function Stills() {
           <div className="flex">
             {images.map((image) => (
               <div key={image.id} className="relative flex-[0_0_100%]">
-                <div className="relative pt-[56.25%]">
+                <div className="relative flex items-center justify-center h-[70vh]">
                   <img
                     src={getImageUrl(image.id)}
                     alt={image.name}
-                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                    className="max-h-full max-w-full h-auto w-auto object-contain"
                     loading="lazy"
                     onError={(e) => {
-                      // const target = e.target as HTMLImageElement;
                       console.error(`Failed to load image: ${image.name}`);
-                      // target.src = "/placeholder-image.jpg"; // You might want to add a placeholder image
                     }}
                   />
                 </div>
