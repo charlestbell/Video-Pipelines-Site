@@ -28,6 +28,8 @@ export default function Stills() {
     containScroll: "keepSnaps",
     dragFree: true,
     axis: "x",
+    watchDrag: false,
+    slidesToScroll: 1,
   });
 
   useEffect(() => {
@@ -174,12 +176,12 @@ export default function Stills() {
 
         {/* Thumbnails */}
         <div className="mt-4 overflow-hidden" ref={thumbViewportRef}>
-          <div className="thumbnail-strip flex gap-2 cursor-grab active:cursor-grabbing overflow-x-auto scrollbar-hide">
+          <div className="thumbnail-strip flex gap-2 cursor-grab active:cursor-grabbing overflow-x-auto scrollbar-hide whitespace-nowrap will-change-transform">
             {images.map((image, index) => (
               <motion.div
                 key={image.id}
                 onClick={() => onThumbClick(index)}
-                className={`relative flex-[0_0_100px] h-[60px] ${
+                className={`relative flex-[0_0_100px] h-[60px] shrink-0 ${
                   index === selectedIndex ? "ring-2 ring-white" : ""
                 }`}
                 whileHover={{ scale: 1.05 }}
@@ -189,7 +191,8 @@ export default function Stills() {
                   src={getImageUrl(image.id, true)}
                   alt={`Thumbnail ${image.name}`}
                   className="w-full h-full object-cover rounded"
-                  loading="lazy"
+                  loading="eager"
+                  decoding="sync"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     console.error(`Failed to load thumbnail: ${image.name}`);
