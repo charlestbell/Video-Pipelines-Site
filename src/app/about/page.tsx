@@ -39,7 +39,11 @@ interface ContentBlockProps {
 
 const ContentBlock = ({ content, fromLeft }: ContentBlockProps) => {
   const textContent = (
-    <div className="w-full md:w-1/2 px-4 flex flex-col justify-center mb-8 md:mb-0">
+    <div
+      className={`w-full md:w-1/2 px-4 flex flex-col justify-center mb-8 md:mb-0 ${
+        fromLeft ? "" : "order-1 md:order-3"
+      }`}
+    >
       <div className="space-y-4">
         <h2
           className={`${
@@ -60,7 +64,11 @@ const ContentBlock = ({ content, fromLeft }: ContentBlockProps) => {
   );
 
   const imageContent = (
-    <div className="w-full md:w-1/2 px-4">
+    <div
+      className={`w-full md:w-1/2 px-4  ${
+        fromLeft ? "order-2" : "order-3 md:order-3"
+      }`}
+    >
       <div className="relative w-full aspect-square">
         <Image
           src={content.image}
