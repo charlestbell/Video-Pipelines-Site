@@ -97,94 +97,85 @@ export default function Stills() {
   }
 
   return (
-    <div>
-      <img
-        style={{ width: 300, height: 300 }}
-        src="https://lh3.googleusercontent.com/d/1EI4jvWwzAjyZaOfcwbwbcfa66CgVLxQ_=w1000?authuser=0"
-      />
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="min-h-screen pt-32 px-4 max-w-7xl mx-auto"
-      >
-        <div className="relative">
-          {/* Main Carousel */}
-          <div className="overflow-hidden" ref={mainViewportRef}>
-            <div className="flex">
-              {images.map((image) => (
-                <div key={image.id} className="relative flex-[0_0_100%]">
-                  <div className="relative pt-[56.25%]">
-                    <img
-                      src={getImageUrl(image.id)}
-                      alt={image.name}
-                      className="absolute inset-0 w-full h-full object-cover rounded-lg"
-                      loading="lazy"
-                      onError={(e) => {
-                        // const target = e.target as HTMLImageElement;
-                        console.error(`Failed to load image: ${image.name}`);
-                        // target.src = "/placeholder-image.jpg"; // You might want to add a placeholder image
-                      }}
-                    />
-                  </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="min-h-screen pt-32 pb-16 px-4 max-w-7xl mx-auto"
+    >
+      <div className="relative mb-8">
+        {/* Main Carousel */}
+        <div className="overflow-hidden" ref={mainViewportRef}>
+          <div className="flex">
+            {images.map((image) => (
+              <div key={image.id} className="relative flex-[0_0_100%]">
+                <div className="relative pt-[56.25%]">
+                  <img
+                    src={getImageUrl(image.id)}
+                    alt={image.name}
+                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                    loading="lazy"
+                    onError={(e) => {
+                      // const target = e.target as HTMLImageElement;
+                      console.error(`Failed to load image: ${image.name}`);
+                      // target.src = "/placeholder-image.jpg"; // You might want to add a placeholder image
+                    }}
+                  />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Navigation Buttons */}
-          <button
-            onClick={() => emblaMainApi?.scrollPrev()}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full"
-          >
-            <ChevronLeftIcon className="w-6 h-6" />
-          </button>
-          <button
-            onClick={() => emblaMainApi?.scrollNext()}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full"
-          >
-            <ChevronRightIcon className="w-6 h-6" />
-          </button>
-
-          {/* Thumbnails */}
-          <div className="mt-4 overflow-hidden" ref={thumbViewportRef}>
-            <div className="flex gap-2 cursor-grab active:cursor-grabbing">
-              {images.map((image, index) => {
-                console.log(
-                  "IMAGE",
-                  image.name,
-                  `https://lh3.googleusercontent.com/d/${image.id}=w300?authuser=0`
-                );
-                return (
-                  <motion.div
-                    key={image.id}
-                    onClick={() => onThumbClick(index)}
-                    className={`relative flex-[0_0_100px] h-[60px] ${
-                      index === selectedIndex ? "ring-2 ring-white" : ""
-                    }`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <img
-                      src={getImageUrl(image.id)}
-                      alt={`Thumbnail ${image.name}`}
-                      className="w-full h-full object-cover rounded"
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        console.error(
-                          `Failed to load thumbnail: ${image.name}`
-                        );
-                        target.src = "/placeholder-image.jpg"; // You might want to add a placeholder image
-                      }}
-                    />
-                  </motion.div>
-                );
-              })}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
-      </motion.div>
-    </div>
+
+        {/* Navigation Buttons */}
+        <button
+          onClick={() => emblaMainApi?.scrollPrev()}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full"
+        >
+          <ChevronLeftIcon className="w-6 h-6" />
+        </button>
+        <button
+          onClick={() => emblaMainApi?.scrollNext()}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full"
+        >
+          <ChevronRightIcon className="w-6 h-6" />
+        </button>
+
+        {/* Thumbnails */}
+        <div className="mt-4 overflow-hidden" ref={thumbViewportRef}>
+          <div className="flex gap-2 cursor-grab active:cursor-grabbing">
+            {images.map((image, index) => {
+              console.log(
+                "IMAGE",
+                image.name,
+                `https://lh3.googleusercontent.com/d/${image.id}=w300?authuser=0`
+              );
+              return (
+                <motion.div
+                  key={image.id}
+                  onClick={() => onThumbClick(index)}
+                  className={`relative flex-[0_0_100px] h-[60px] ${
+                    index === selectedIndex ? "ring-2 ring-white" : ""
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <img
+                    src={getImageUrl(image.id)}
+                    alt={`Thumbnail ${image.name}`}
+                    className="w-full h-full object-cover rounded"
+                    loading="lazy"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      console.error(`Failed to load thumbnail: ${image.name}`);
+                      target.src = "/placeholder-image.jpg"; // You might want to add a placeholder image
+                    }}
+                  />
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
