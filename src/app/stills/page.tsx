@@ -8,10 +8,11 @@ interface ImageFile {
   id: string;
   name: string;
   webContentLink: string;
+  thumbnailLink?: string;
 }
 
-const getImageUrl = (id: string) => {
-  return `/api/image/${id}`;
+const getImageUrl = (id: string, isThumbnail?: boolean) => {
+  return `/api/image/${id}${isThumbnail ? "?thumbnail=true" : ""}`;
 };
 
 export default function Stills() {
@@ -174,31 +175,29 @@ export default function Stills() {
         {/* Thumbnails */}
         <div className="mt-4 overflow-hidden" ref={thumbViewportRef}>
           <div className="thumbnail-strip flex gap-2 cursor-grab active:cursor-grabbing overflow-x-auto scrollbar-hide">
-            {images.map((image, index) => {
-              return (
-                <motion.div
-                  key={image.id}
-                  onClick={() => onThumbClick(index)}
-                  className={`relative flex-[0_0_100px] h-[60px] ${
-                    index === selectedIndex ? "ring-2 ring-white" : ""
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <img
-                    src={getImageUrl(image.id)}
-                    alt={`Thumbnail ${image.name}`}
-                    className="w-full h-full object-cover rounded"
-                    loading="lazy"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      console.error(`Failed to load thumbnail: ${image.name}`);
-                      target.src = "/placeholder-image.jpg"; // You might want to add a placeholder image
-                    }}
-                  />
-                </motion.div>
-              );
-            })}
+            {images.map((image, index) => (
+              <motion.div
+                key={image.id}
+                onClick={() => onThumbClick(index)}
+                className={`relative flex-[0_0_100px] h-[60px] ${
+                  index === selectedIndex ? "ring-2 ring-white" : ""
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <img
+                  src={getImageUrl(image.id, true)}
+                  alt={`Thumbnail ${image.name}`}
+                  className="w-full h-full object-cover rounded"
+                  loading="lazy"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    console.error(`Failed to load thumbnail: ${image.name}`);
+                    target.src = "/placeholder-image.jpg";
+                  }}
+                />
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
