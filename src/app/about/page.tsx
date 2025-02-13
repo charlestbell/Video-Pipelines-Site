@@ -39,7 +39,7 @@ interface ContentBlockProps {
 
 const ContentBlock = ({ content, fromLeft }: ContentBlockProps) => {
   const textContent = (
-    <div className="w-full md:w-1/2 px-4 flex flex-col justify-center">
+    <div className="w-full md:w-1/2 px-4 flex flex-col justify-center mb-8 md:mb-0">
       <div className="space-y-4">
         <h2
           className={`${
@@ -66,7 +66,7 @@ const ContentBlock = ({ content, fromLeft }: ContentBlockProps) => {
           src={content.image}
           alt={content.imageAlt}
           fill
-          className="rounded-lg shadow-lg object-cover"
+          className="rounded-lg shadow-lg"
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={content.title.includes("Hi,")}
           onError={(e) => {
@@ -78,7 +78,7 @@ const ContentBlock = ({ content, fromLeft }: ContentBlockProps) => {
   );
 
   return (
-    <div className="flex flex-col md:flex-row w-full">
+    <div className="flex flex-col md:flex-row w-full items-center">
       {fromLeft ? (
         <>
           {textContent}
