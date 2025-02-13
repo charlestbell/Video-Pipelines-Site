@@ -16,18 +16,19 @@ export async function GET(
   context: { params: { id: string } }
 ) {
   try {
-    const fileId = await Promise.resolve(context.params.id);
+    const params = await context.params;
+    const id = params.id;
 
     // Get the file metadata to verify it exists and get its MIME type
     const file = await drive.files.get({
-      fileId: fileId,
+      fileId: id,
       fields: "mimeType",
     });
 
     // Get the file content
     const response = await drive.files.get(
       {
-        fileId: fileId,
+        fileId: id,
         alt: "media",
       },
       { responseType: "stream" }

@@ -80,6 +80,39 @@ export default function Stills() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [emblaMainApi]);
 
+  useEffect(() => {
+    const transformScroll = (event: WheelEvent) => {
+      console.log("WHEEL EVENT", event);
+      event.stopPropagation();
+      event.preventDefault();
+
+      const container = document.querySelector(".thumbnail-strip");
+      if (container && event.deltaY) {
+        container.scrollLeft += event.deltaY;
+      }
+    };
+
+    const thumbContainer = document.querySelector(".thumbnail-strip");
+    if (thumbContainer) {
+      thumbContainer.addEventListener(
+        "wheel",
+        transformScroll as EventListener,
+        { capture: true, passive: false }
+      );
+    }
+
+    return () => {
+      const thumbContainer = document.querySelector(".thumbnail-strip");
+      if (thumbContainer) {
+        thumbContainer.removeEventListener(
+          "wheel",
+          transformScroll as EventListener,
+          { capture: true }
+        );
+      }
+    };
+  }, [emblaThumbsApi]);
+
   if (loading) {
     return (
       <div className="min-h-screen pt-32 px-4 flex items-center justify-center">
@@ -140,13 +173,8 @@ export default function Stills() {
 
         {/* Thumbnails */}
         <div className="mt-4 overflow-hidden" ref={thumbViewportRef}>
-          <div className="flex gap-2 cursor-grab active:cursor-grabbing">
+          <div className="thumbnail-strip flex gap-2 cursor-grab active:cursor-grabbing overflow-x-auto scrollbar-hide">
             {images.map((image, index) => {
-              console.log(
-                "IMAGE",
-                image.name,
-                `https://lh3.googleusercontent.com/d/${image.id}=w300?authuser=0`
-              );
               return (
                 <motion.div
                   key={image.id}
