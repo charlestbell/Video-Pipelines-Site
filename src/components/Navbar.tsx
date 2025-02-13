@@ -75,7 +75,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { href: "/recent-work", label: "Recent Work" },
+    { href: "/", label: "Recent Work" },
     { href: "/stills", label: "Stills" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
