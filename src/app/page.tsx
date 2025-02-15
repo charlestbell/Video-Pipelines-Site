@@ -5,20 +5,24 @@ import { useRef, useState, useEffect } from "react";
 
 const content = [
   {
-    title: "my video",
-    description: "my description",
+    title: "Make It Yours",
+    description: "Multi-product campaign",
     url: `<iframe src="https://drive.google.com/file/d/17yySkKi9AcX9Wa6esURGzQNrJzy8urX0/preview" width="640" height="480" allow="autoplay"></iframe>`,
   },
   {
-    title: "my video 2",
-    description: "my description 2",
-    url: `<iframe src="https://drive.google.com/file/d/17z3j6dK2ZfbzyFZMjAewQAn7hJ1_oOoG/preview" width="640" height="480" allow="autoplay"></iframe>`,
-  },
-
-  {
-    title: "my video 3",
-    description: "my description 3",
+    title: "Triple Run: Our Strongest Stuff Yet",
+    description: "Product line promotion",
     url: `https://www.youtube.com/watch?v=pXJ7gD09ujM`,
+  },
+  {
+    title: "Nomad Adapt To The Mission",
+    description: "Product promotion",
+    url: `https://www.youtube.com/watch?v=jcEQmqp-iJ4`,
+  },
+  {
+    title: "YakAttack: Stop Motion Ad",
+    description: "Multi-product campaign",
+    url: `<iframe src="https://drive.google.com/file/d/17z3j6dK2ZfbzyFZMjAewQAn7hJ1_oOoG/preview" width="640" height="480" allow="autoplay"></iframe>`,
   },
 ];
 
@@ -85,7 +89,7 @@ const VideoCard = ({
         ease: "easeOut",
         delay: index * 0.4,
       }}
-      className="w-full max-w-4xl bg-[#282C30] rounded-lg overflow-hidden shadow-lg mb-12"
+      className="w-full mb-16"
     >
       <div className="relative w-full pt-[56.25%] bg-[#1a1d1f]">
         {" "}
@@ -100,12 +104,12 @@ const VideoCard = ({
           }}
         />
       </div>
-      <div className="p-6">
+      <div className="mt-4 space-y-2">
         <motion.h2
           initial={{ opacity: 0, x: -20 }}
           animate={isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
           transition={{ duration: 0.6, delay: index * 0.4 + 0.3 }}
-          className="text-2xl font-bold text-gray-100 mb-2"
+          className="text-2xl font-bold text-gray-100"
         >
           {item.title}
         </motion.h2>
