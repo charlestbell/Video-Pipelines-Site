@@ -5,6 +5,7 @@ import "keen-slider/keen-slider.min.css";
 import { useState, useEffect } from "react";
 import { getImageUrl } from "../../utils/getImageUrl";
 import { ImageType } from "../../types/ImageType";
+import { motion } from "framer-motion";
 
 const Stills = () => {
   const [images, setImages] = useState<ImageType[]>([]);
@@ -75,12 +76,12 @@ const Stills = () => {
           <div
             key={image.id}
             onClick={() => handleThumbnailClick(idx)}
-            className="keen-slider__slide h-[60px] cursor-pointer"
+            className="keen-slider__slide h-[120px] w-[213.33px] cursor-pointer"
           >
             <img
               src={getImageUrl(image.id, true)}
               alt={image.name}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover aspect-[16/9]"
             />
           </div>
         ))}
