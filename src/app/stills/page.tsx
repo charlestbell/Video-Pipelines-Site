@@ -56,6 +56,7 @@ const Stills = () => {
     }
   };
 
+  // Separate useEffect for fetching images
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -75,13 +76,15 @@ const Stills = () => {
     };
 
     fetchImages();
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
   }, []);
+
+  // Separate useEffect for keyboard events
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown, handlePrevClick, handleNextClick]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
