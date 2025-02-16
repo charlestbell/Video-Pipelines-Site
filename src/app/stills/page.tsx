@@ -237,7 +237,7 @@ export default function Stills() {
 
         {/* Thumbnails */}
         <div className="mt-4 overflow-hidden" ref={thumbViewportRef}>
-          <div className="thumbnail-strip flex gap-2 cursor-grab active:cursor-grabbing whitespace-nowrap will-change-transform">
+          <div className="thumbnail-strip flex gap-2 cursor-grab active:cursor-grabbing whitespace-nowrap will-change-transform transition-transform duration-300 ease-out">
             {images.map((image, index) => (
               <motion.div
                 key={image.id}
