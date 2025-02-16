@@ -66,8 +66,8 @@ const NavLink = ({
         <motion.span
           className={`text-xl text-gray-100 hover:text-gray-300 transition-colors relative ${
             pathname === href
-              ? "after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-white"
-              : ""
+              ? "after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-white after:origin-left after:scale-x-100 after:opacity-100 after:transition-all after:duration-300"
+              : "after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-white after:origin-left after:scale-x-0 after:opacity-0 after:transition-all after:duration-300"
           }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

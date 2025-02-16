@@ -52,7 +52,7 @@ const VideoCard = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const isInView = useInView(ref, {
     once: true,
-    amount: 0.3,
+    amount: 0.1,
   });
 
   const getEmbedUrl = (url: string) => {
@@ -102,36 +102,44 @@ const VideoCard = ({
   }, [index]);
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: -100 }}
-      animate={
-        isInView && isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: -100 }
-      }
-      transition={{
-        duration: 0.8,
-        ease: "easeOut",
-        delay: index * 0.4,
-      }}
-      className="w-full mb-16"
-    >
-      <div className="relative w-full pt-[56.25%] bg-[#1a1d1f]">
-        {" "}
-        {/* 16:9 aspect ratio */}
-        <div
-          className="absolute top-0 left-0 w-full h-full"
-          dangerouslySetInnerHTML={{
-            __html: getEmbedUrl(item.url).replace(
-              "iframe",
-              `iframe data-index="${index}"`
-            ),
+    <div className="w-full mb-16">
+      <div className="relative w-full pt-[56.25%] bg-[#1a1d1f] overflow-hidden">
+        {!isLoaded && (
+          <div className="absolute inset-0 animate-pulse">
+            <div className="h-full w-full bg-gradient-to-r from-[#1a1d1f] via-[#282C30] to-[#1a1d1f] bg-[length:200%_100%] animate-shimmer" />
+          </div>
+        )}
+
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, x: -100 }}
+          animate={
+            isInView && isLoaded
+              ? { opacity: 1, x: 0 }
+              : { opacity: 0, x: -100 }
+          }
+          transition={{
+            duration: 0.8,
+            ease: "easeOut",
+            delay: index * 0.4,
           }}
-        />
+          className="absolute top-0 left-0 w-full h-full"
+        >
+          <div
+            className="w-full h-full"
+            dangerouslySetInnerHTML={{
+              __html: getEmbedUrl(item.url).replace(
+                "iframe",
+                `iframe data-index="${index}"`
+              ),
+            }}
+          />
+        </motion.div>
       </div>
       <div className="mt-4 space-y-2">
         <motion.h2
           initial={{ opacity: 0, x: -20 }}
-          animate={isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
           transition={{ duration: 0.6, delay: index * 0.4 + 0.3 }}
           className="text-2xl font-bold text-gray-100"
         >
@@ -139,14 +147,14 @@ const VideoCard = ({
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, x: -20 }}
-          animate={isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
           transition={{ duration: 0.6, delay: index * 0.4 + 0.4 }}
           className="text-gray-300"
         >
           {item.description}
         </motion.p>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

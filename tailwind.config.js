@@ -13,6 +13,15 @@ module.exports = {
         "button-dark": "#3A3F44",
         "button-hover": "#444A50",
       },
+      animation: {
+        shimmer: "shimmer 2s infinite linear",
+      },
+      keyframes: {
+        shimmer: {
+          "0%": { backgroundPosition: "200% 0" },
+          "100%": { backgroundPosition: "-200% 0" },
+        },
+      },
     },
   },
   plugins: [],
