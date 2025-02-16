@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { getImageUrl } from "../../utils/getImageUrl";
 import { ImageType } from "../../types/ImageType";
 import { motion } from "framer-motion";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const Stills = () => {
   const [images, setImages] = useState<ImageType[]>([]);
@@ -30,6 +31,14 @@ const Stills = () => {
 
   const handleThumbnailClick = (idx: number) => {
     instanceRef.current?.moveToIdx(idx);
+  };
+
+  const handlePrevClick = () => {
+    instanceRef.current?.prev();
+  };
+
+  const handleNextClick = () => {
+    instanceRef.current?.next();
   };
 
   useEffect(() => {
@@ -58,7 +67,7 @@ const Stills = () => {
   if (!images.length) return <div>No images available</div>;
 
   return (
-    <div className="min-h-screen pt-32 pb-16 px-4 max-w-6xl mx-auto">
+    <div className="min-h-screen pt-32 pb-16 px-4 max-w-6xl mx-auto relative">
       <div ref={sliderRef} className="keen-slider h-[80vh] bg-[#1E2124]">
         {images.map((image) => (
           <div key={image.id} className="keen-slider__slide">
@@ -86,6 +95,19 @@ const Stills = () => {
           </div>
         ))}
       </div>
+
+      <button
+        onClick={handlePrevClick}
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2"
+      >
+        <ChevronLeftIcon className="h-6 w-6" />
+      </button>
+      <button
+        onClick={handleNextClick}
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2"
+      >
+        <ChevronRightIcon className="h-6 w-6" />
+      </button>
     </div>
   );
 };
