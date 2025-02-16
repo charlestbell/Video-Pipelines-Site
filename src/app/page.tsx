@@ -15,7 +15,7 @@ const content = [
     url: `https://www.youtube.com/watch?v=pXJ7gD09ujM`,
   },
   {
-    title: "Nomad Adapt To The Mission",
+    title: "Nomad: Adapt To The Mission",
     description: "Product promotion",
     url: `https://www.youtube.com/watch?v=jcEQmqp-iJ4`,
   },
@@ -42,8 +42,17 @@ const VideoCard = ({
 
   const getEmbedUrl = (url: string) => {
     if (url.includes("youtube.com/watch")) {
-      const videoId = url.split("v=")[1];
-      return `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease-in;" onload="this.style.opacity = '1'; this.dispatchEvent(new Event('iframeLoaded'))"></iframe>`;
+      const videoId = url.split("v=")[1].split("&")[0];
+      return `<iframe 
+        width="100%" 
+        height="100%" 
+        src="https://www.youtube.com/embed/${videoId}" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen 
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease-in;" 
+        onload="this.style.opacity = '1'; window.postMessage('iframe-${index}-loaded', '*')"
+      ></iframe>`;
     }
     if (url.includes("drive.google.com")) {
       return url.replace(
