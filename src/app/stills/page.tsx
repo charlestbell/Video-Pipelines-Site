@@ -31,6 +31,8 @@ export default function Stills() {
     axis: "x",
     watchDrag: true,
     skipSnaps: false,
+    align: "start",
+    startIndex: 0,
   });
 
   useEffect(() => {
