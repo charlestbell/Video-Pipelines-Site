@@ -15,6 +15,11 @@ const content = [
     url: `https://www.youtube.com/watch?v=pXJ7gD09ujM`,
   },
   {
+    title: "YakAttack Phone Holder",
+    description: "30s Product Ad",
+    url: '<iframe src="https://drive.google.com/file/d/1CeCkdyT6JqX6a-MnRSgDVR5kGOu9PzRd/preview" width="640" height="480" allow="autoplay"></iframe>',
+  },
+  {
     title: "Nomad: Adapt To The Mission",
     description: "Product promotion",
     url: `https://www.youtube.com/watch?v=jcEQmqp-iJ4`,
