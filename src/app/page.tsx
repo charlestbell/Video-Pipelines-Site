@@ -20,6 +20,21 @@ const content = [
     url: `https://www.youtube.com/watch?v=jcEQmqp-iJ4`,
   },
   {
+    title: "Tacoma Walkaround",
+    description: "Youtube Content",
+    url: "https://www.youtube.com/watch?v=2tcVrRuHBic",
+  },
+  {
+    title: "Beginner's Guide to Shocks and Springs",
+    description: "Educational Youtube Content",
+    url: "https://www.youtube.com/watch?v=oyc1tt6qO94",
+  },
+  {
+    title: "We Guide - Overland Trip VII - West Virginia",
+    description: "Adventure Youtube Content",
+    url: "https://www.youtube.com/watch?v=dzgcsnf8E_U",
+  },
+  {
     title: "YakAttack: Stop Motion Ad",
     description: "Multi-product campaign",
     url: `<iframe src="https://drive.google.com/file/d/17z3j6dK2ZfbzyFZMjAewQAn7hJ1_oOoG/preview" width="640" height="480" allow="autoplay"></iframe>`,
@@ -137,7 +152,7 @@ const VideoCard = ({
 
 export default function Home() {
   return (
-    <div className="min-h-screen pt-32 pb-16 px-4 max-w-4xl mx-auto">
+    <div className="min-h-screen pt-32 pb-16 px-4 max-w-6xl mx-auto">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

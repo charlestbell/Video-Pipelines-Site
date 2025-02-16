@@ -3,6 +3,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Roboto } from "next/font/google";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -28,7 +29,7 @@ const AnimatedCharacters = ({
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: 0.5,
+            duration: 0.2,
             delay: delay + 0.05 * index,
             ease: "easeOut",
           }}
@@ -49,27 +50,34 @@ const NavLink = ({
   href: string;
   children: React.ReactNode;
   index: number;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: -20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{
-      duration: 0.5,
-      delay: 0.5 + index * 0.1,
-      ease: "easeOut",
-    }}
-  >
-    <Link href={href}>
-      <motion.span
-        className="text-gray-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {children}
-      </motion.span>
-    </Link>
-  </motion.div>
-);
+}) => {
+  const pathname = usePathname();
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.5,
+        delay: 0.8 + index * 0.1,
+        ease: "easeOut",
+      }}
+    >
+      <Link href={href}>
+        <motion.span
+          className={`text-xl text-gray-100 hover:text-gray-300 transition-colors relative ${
+            pathname === href
+              ? "after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-white"
+              : ""
+          }`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {children}
+        </motion.span>
+      </Link>
+    </motion.div>
+  );
+};
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -87,9 +95,9 @@ export default function Navbar() {
       animate={{ opacity: 1 }}
       className="fixed w-full z-50 bg-[#282C30] bg-opacity-95 backdrop-blur-sm"
     >
-      <div className="container mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         <div className="flex flex-row items-center justify-between h-24">
-          <div className="flex flex-row items-center gap-8">
+          <div className="flex flex-row items-center gap-8 w-full justify-between md:justify-start">
             <Link href="/" className="flex-shrink-0">
               <span
                 className={`${roboto.className} text-xl md:text-2xl text-gray-100`}
@@ -111,7 +119,7 @@ export default function Navbar() {
             {/* Desktop menu */}
             <div className="hidden md:flex flex-row items-center gap-8">
               {navItems.map((item, index) => (
-                <NavLink key={item.href} href={item.href} index={index + 1}>
+                <NavLink key={item.href} href={item.href} index={index}>
                   {item.label}
                 </NavLink>
               ))}

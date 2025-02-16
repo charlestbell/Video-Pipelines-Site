@@ -15,13 +15,13 @@ const aboutContent: ContentSection[] = [
   {
     title: "Hi, I'm C.T. Bell",
     text: "With over a decade of experience in filmmaking, I've dedicated my career to capturing moments that tell compelling stories.",
-    image: "/about1.jpg",
+    image: "/about2.jpg",
     imageAlt: "C.T. Bell at work",
   },
   {
     title: "Crafting Visual Stories",
     text: "My approach combines technical precision with artistic vision. Each project is an opportunity to create something unique that resonates with audiences on a deeper level.",
-    image: "/about2.jpg",
+    image: "/about1.jpg",
     imageAlt: "Behind the scenes",
   },
   {

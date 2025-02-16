@@ -136,7 +136,7 @@ export default function Stills() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen pt-32 pb-16 px-4 max-w-7xl mx-auto"
+      className="min-h-screen pt-32 pb-16 px-4 max-w-6xl mx-auto"
     >
       <div className="relative mb-8">
         {/* Main Carousel */}
