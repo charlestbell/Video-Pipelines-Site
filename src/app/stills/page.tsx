@@ -104,25 +104,34 @@ const Stills = () => {
         ))}
       </div>
 
-      <div ref={thumbnailRef} className="keen-slider mt-4">
+      <div ref={thumbnailRef} className="keen-slider mt-4 p-4">
         {images.map((image, idx) => (
-          <div
+          <motion.div
             key={image.id}
-            className="keen-slider__slide h-[120px] w-[213.33px]"
+            className="keen-slider__slide h-[120px] w-[213.33px] m-[2px]"
+            animate={{
+              filter:
+                idx === currentSlide
+                  ? "drop-shadow(0 0 8px rgba(255, 255, 255, 0.6))"
+                  : "drop-shadow(0 0 0 transparent)",
+            }}
+            transition={{
+              duration: 0.2,
+            }}
           >
             <motion.div
               onClick={() => handleThumbnailClick(idx)}
-              className="h-full w-full cursor-pointer"
+              className="h-full w-full cursor-pointer overflow-hidden rounded"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
               <img
                 src={getImageUrl(image.id, true)}
                 alt={image.name}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover rounded"
               />
             </motion.div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
