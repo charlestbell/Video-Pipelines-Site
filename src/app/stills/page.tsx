@@ -91,8 +91,8 @@ const Stills = () => {
   if (!images.length) return <div>No images available</div>;
 
   return (
-    <div className="min-h-screen pt-32 pb-16 px-4 max-w-6xl mx-auto relative">
-      <div ref={sliderRef} className="keen-slider h-[80vh] bg-[#1E2124]">
+    <div className="min-h-screen pt-32 pb-16 px-4 max-w-5xl mx-auto relative">
+      <div ref={sliderRef} className="keen-slider h-[70vh] bg-[#1E2124]">
         {images.map((image) => (
           <div key={image.id} className="keen-slider__slide">
             <img
