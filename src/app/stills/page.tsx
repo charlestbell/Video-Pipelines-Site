@@ -2,17 +2,22 @@
 
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { getImageUrl } from "../../utils/getImageUrl";
 import { ImageType } from "../../types/ImageType";
 import { motion } from "framer-motion";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 const Stills = () => {
   const [images, setImages] = useState<ImageType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const zoomRef = useRef(null);
 
   const [sliderRef, instanceRef] = useKeenSlider({
     initial: 0,
@@ -29,31 +34,49 @@ const Stills = () => {
     },
   });
 
-  const handleThumbnailClick = (idx: number) => {
+  const handleThumbnailClick = useCallback((idx: number) => {
     instanceRef.current?.moveToIdx(idx);
     thumbnailInstanceRef.current?.moveToIdx(idx);
-  };
+  }, []);
 
-  const handlePrevClick = () => {
-    if (currentSlide > 0) {
-      instanceRef.current?.prev();
-      thumbnailInstanceRef.current?.prev();
+  const handlePrevClick = useCallback(() => {
+    if (
+      currentSlide > 0 &&
+      instanceRef.current &&
+      thumbnailInstanceRef.current
+    ) {
+      instanceRef.current.prev();
+      thumbnailInstanceRef.current.prev();
     }
-  };
+  }, [currentSlide]);
 
-  const handleNextClick = () => {
-    if (currentSlide < images.length - 1) {
-      instanceRef.current?.next();
-      thumbnailInstanceRef.current?.next();
+  const handleNextClick = useCallback(() => {
+    if (
+      instanceRef.current &&
+      thumbnailInstanceRef.current &&
+      images.length > 0
+    ) {
+      const lastIndex = images.length - 1;
+      if (currentSlide < lastIndex) {
+        instanceRef.current.next();
+        thumbnailInstanceRef.current.next();
+      }
     }
-  };
+  }, [currentSlide, images.length]);
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "ArrowLeft") {
-      handlePrevClick();
-    } else if (event.key === "ArrowRight") {
-      handleNextClick();
-    }
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        handlePrevClick();
+      } else if (event.key === "ArrowRight") {
+        handleNextClick();
+      }
+    },
+    [handlePrevClick, handleNextClick]
+  );
+
+  const openLightbox = () => {
+    setIsLightboxOpen(true);
   };
 
   // Separate useEffect for fetching images
@@ -92,7 +115,11 @@ const Stills = () => {
 
   return (
     <div className="min-h-screen pt-32 pb-16 px-4 max-w-5xl mx-auto relative">
-      <div ref={sliderRef} className="keen-slider h-[70vh] bg-[#1E2124]">
+      <div
+        ref={sliderRef}
+        className="keen-slider h-[70vh] bg-[#1E2124] cursor-pointer"
+        onClick={openLightbox}
+      >
         {images.map((image) => (
           <div key={image.id} className="keen-slider__slide">
             <img
@@ -103,6 +130,26 @@ const Stills = () => {
           </div>
         ))}
       </div>
+
+      {/* Lightbox component */}
+      <Lightbox
+        open={isLightboxOpen}
+        close={() => setIsLightboxOpen(false)}
+        slides={images.map((image) => ({ src: getImageUrl(image.id, false) }))}
+        index={currentSlide}
+        plugins={[Zoom]}
+        zoom={{ ref: zoomRef }}
+        carousel={{ finite: true }}
+        on={{
+          view: ({ index }) => {
+            if (index !== currentSlide) {
+              setCurrentSlide(index);
+              instanceRef.current?.moveToIdx(index);
+              thumbnailInstanceRef.current?.moveToIdx(index);
+            }
+          },
+        }}
+      />
 
       <div ref={thumbnailRef} className="keen-slider mt-4 p-4">
         {images.map((image, idx) => (
