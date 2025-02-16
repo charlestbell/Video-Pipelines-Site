@@ -126,12 +126,20 @@ export default function Contact() {
             className="space-y-2"
           >
             <h2 className="text-xl font-semibold text-gray-100">C.T. Bell</h2>
-            <a
-              href="mailto:videopipelines@gmail.com"
-              className="text-gray-300 hover:text-gray-100 transition-colors"
-            >
-              videopipelines@gmail.com
-            </a>
+            <div className="flex flex-col space-y-2">
+              <a
+                href="mailto:videopipelines@gmail.com"
+                className="text-gray-300 hover:text-gray-100 transition-colors"
+              >
+                videopipelines@gmail.com
+              </a>
+              <a
+                href="tel:+18044919596"
+                className="text-gray-300 hover:text-gray-100 transition-colors"
+              >
+                (804) 491-9596
+              </a>
+            </div>
           </motion.div>
 
           <motion.div

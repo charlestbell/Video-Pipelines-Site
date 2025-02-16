@@ -14,20 +14,20 @@ interface ContentSection {
 const aboutContent: ContentSection[] = [
   {
     title: "Hi, I'm C.T. Bell",
-    text: "With over a decade of experience in filmmaking, I've dedicated my career to capturing moments that tell compelling stories.",
-    image: "/about2.jpg",
+    text: "Video Strategist with over a decade of experience helping brands promote their message and products",
+    image: "/about3.jpg",
     imageAlt: "C.T. Bell at work",
   },
   {
     title: "Crafting Visual Stories",
-    text: "My approach combines technical precision with artistic vision. Each project is an opportunity to create something unique that resonates with audiences on a deeper level.",
+    text: "Creative Director, Cinematographer, Gaffer, Editor. I create YouTube videos, Social Media Content, Ads, Podcasts, and Photography. From concept to delivery, multi format, multi platform, to put your business center stage.",
     image: "/about1.jpg",
     imageAlt: "Behind the scenes",
   },
   {
     title: "Beyond the Lens",
-    text: "When I'm not behind the camera, I'm constantly exploring new techniques and technologies to push the boundaries of what's possible in visual storytelling.",
-    image: "/about3.jpg",
+    text: "When I'm not behind the camera, I'm constantly exploring new techniques and technologies to push the boundaries of what's possible in visual storytelling. Operating in Virginia and ready to travel; helping companies reach their audiences. Let’s chat.",
+    image: "/about2.jpg",
     imageAlt: "Creative process",
   },
 ];
