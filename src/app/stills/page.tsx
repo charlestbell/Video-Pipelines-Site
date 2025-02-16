@@ -59,7 +59,7 @@ const Stills = () => {
 
   return (
     <div className="min-h-screen pt-32 pb-16 px-4 max-w-6xl mx-auto">
-      <div ref={sliderRef} className="keen-slider h-[80vh] bg-black">
+      <div ref={sliderRef} className="keen-slider h-[80vh] bg-[#1E2124]">
         {images.map((image) => (
           <div key={image.id} className="keen-slider__slide">
             <img
