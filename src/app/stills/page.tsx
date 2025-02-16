@@ -21,7 +21,7 @@ const Stills = () => {
     },
   });
 
-  const [thumbnailRef] = useKeenSlider({
+  const [thumbnailRef, thumbnailInstanceRef] = useKeenSlider({
     initial: 0,
     slides: {
       perView: 6,
@@ -31,14 +31,29 @@ const Stills = () => {
 
   const handleThumbnailClick = (idx: number) => {
     instanceRef.current?.moveToIdx(idx);
+    thumbnailInstanceRef.current?.moveToIdx(idx);
   };
 
   const handlePrevClick = () => {
-    instanceRef.current?.prev();
+    if (currentSlide > 0) {
+      instanceRef.current?.prev();
+      thumbnailInstanceRef.current?.prev();
+    }
   };
 
   const handleNextClick = () => {
-    instanceRef.current?.next();
+    if (currentSlide < images.length - 1) {
+      instanceRef.current?.next();
+      thumbnailInstanceRef.current?.next();
+    }
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "ArrowLeft") {
+      handlePrevClick();
+    } else if (event.key === "ArrowRight") {
+      handleNextClick();
+    }
   };
 
   useEffect(() => {
@@ -60,6 +75,12 @@ const Stills = () => {
     };
 
     fetchImages();
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   if (loading) return <div>Loading...</div>;
