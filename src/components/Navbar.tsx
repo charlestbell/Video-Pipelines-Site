@@ -52,6 +52,8 @@ const NavLink = ({
   index: number;
 }) => {
   const pathname = usePathname();
+  const isActive = pathname === href;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -62,18 +64,13 @@ const NavLink = ({
         ease: "easeOut",
       }}
     >
-      <Link href={href}>
-        <motion.span
-          className={`text-xl text-gray-100 hover:text-gray-300 transition-colors relative ${
-            pathname === href
-              ? "after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-white after:origin-left after:scale-x-100 after:opacity-100 after:transition-all after:duration-300"
-              : "after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-white after:origin-left after:scale-x-0 after:opacity-0 after:transition-all after:duration-300"
-          }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {children}
-        </motion.span>
+      <Link
+        href={href}
+        className={`text-sm hover:text-white transition-colors ${
+          isActive ? "text-white" : "text-gray-400"
+        }`}
+      >
+        {children}
       </Link>
     </motion.div>
   );
