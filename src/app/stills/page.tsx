@@ -58,7 +58,7 @@ const Stills = () => {
   if (!images.length) return <div>No images available</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen pt-32 pb-16 px-4 max-w-6xl mx-auto">
       <div ref={sliderRef} className="keen-slider h-[80vh] bg-black">
         {images.map((image) => (
           <div key={image.id} className="keen-slider__slide">
@@ -81,7 +81,7 @@ const Stills = () => {
             <img
               src={getImageUrl(image.id, true)}
               alt={image.name}
-              className="h-full w-full object-cover aspect-[16/9]"
+              className="h-full w-full object-cover"
             />
           </div>
         ))}
