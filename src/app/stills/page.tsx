@@ -108,14 +108,20 @@ const Stills = () => {
         {images.map((image, idx) => (
           <div
             key={image.id}
-            onClick={() => handleThumbnailClick(idx)}
-            className="keen-slider__slide h-[120px] w-[213.33px] cursor-pointer"
+            className="keen-slider__slide h-[120px] w-[213.33px]"
           >
-            <img
-              src={getImageUrl(image.id, true)}
-              alt={image.name}
-              className="h-full w-full object-cover"
-            />
+            <motion.div
+              onClick={() => handleThumbnailClick(idx)}
+              className="h-full w-full cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <img
+                src={getImageUrl(image.id, true)}
+                alt={image.name}
+                className="h-full w-full object-cover"
+              />
+            </motion.div>
           </div>
         ))}
       </div>
