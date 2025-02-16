@@ -113,35 +113,42 @@ export default function Stills() {
   }, [emblaMainApi]);
 
   useEffect(() => {
+    let lastScrollTime = 0;
+    const minScrollInterval = 80; // Reduced to 50ms for much faster scrolling
+
     const transformScroll = (event: WheelEvent) => {
-      console.log("WHEEL EVENT", event);
       event.stopPropagation();
       event.preventDefault();
 
-      const container = document.querySelector(".thumbnail-strip");
-      if (container && event.deltaY) {
-        container.scrollLeft += event.deltaY;
+      const delta =
+        Math.abs(event.deltaX) > Math.abs(event.deltaY)
+          ? event.deltaX
+          : event.deltaY;
+
+      if (emblaThumbsApi) {
+        const currentTime = Date.now();
+
+        // Only scroll if enough time has passed since last scroll
+        if (currentTime - lastScrollTime >= minScrollInterval) {
+          requestAnimationFrame(() => {
+            if (delta !== 0) {
+              if (delta > 0) {
+                emblaThumbsApi.scrollNext();
+              } else {
+                emblaThumbsApi.scrollPrev();
+              }
+              emblaThumbsApi.reInit();
+            }
+          });
+          lastScrollTime = currentTime;
+        }
       }
     };
 
-    const thumbContainer = document.querySelector(".thumbnail-strip");
-    if (thumbContainer) {
-      thumbContainer.addEventListener(
-        "wheel",
-        transformScroll as EventListener,
-        { capture: true, passive: false }
-      );
-    }
+    document.addEventListener("wheel", transformScroll, { passive: false });
 
     return () => {
-      const thumbContainer = document.querySelector(".thumbnail-strip");
-      if (thumbContainer) {
-        thumbContainer.removeEventListener(
-          "wheel",
-          transformScroll as EventListener,
-          { capture: true }
-        );
-      }
+      document.removeEventListener("wheel", transformScroll);
     };
   }, [emblaThumbsApi]);
 
@@ -150,12 +157,11 @@ export default function Stills() {
       emblaMainApi.on("select", () => {
         const index = emblaMainApi.selectedScrollSnap();
         setSelectedIndex(index);
-        emblaThumbsApi.scrollTo(index); // Ensure thumbnails follow main image
+        emblaThumbsApi.scrollTo(index);
       });
     }
   }, [emblaMainApi, emblaThumbsApi]);
 
-  // Add this effect to handle thumbnail scrolling
   useEffect(() => {
     if (!emblaThumbsApi) return;
 
@@ -231,7 +237,7 @@ export default function Stills() {
 
         {/* Thumbnails */}
         <div className="mt-4 overflow-hidden" ref={thumbViewportRef}>
-          <div className="thumbnail-strip flex gap-2 cursor-grab active:cursor-grabbing whitespace-nowrap">
+          <div className="thumbnail-strip flex gap-2 cursor-grab active:cursor-grabbing whitespace-nowrap will-change-transform">
             {images.map((image, index) => (
               <motion.div
                 key={image.id}
