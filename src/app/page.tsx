@@ -12,6 +12,7 @@ const content = [
   {
     title: "Triple Run: Our Strongest Stuff Yet",
     description: "Product line promotion",
+    role: "Camera/Edit",
     url: `https://www.youtube.com/watch?v=pXJ7gD09ujM`,
   },
   {
@@ -37,6 +38,7 @@ const content = [
   {
     title: "We Guide - Overland Trip VII - West Virginia",
     description: "Adventure Youtube Content",
+    role: "Camera/Edit",
     url: "https://www.youtube.com/watch?v=dzgcsnf8E_U",
   },
   {
@@ -158,6 +160,16 @@ const VideoCard = ({
         >
           {item.description}
         </motion.p>
+        {item.role && (
+          <motion.p
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+            transition={{ duration: 0.6, delay: index * 0.4 + 0.5 }}
+            className="text-gray-300"
+          >
+            {`Role: ${item.role}`}
+          </motion.p>
+        )}
       </div>
     </div>
   );
