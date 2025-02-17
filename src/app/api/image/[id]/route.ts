@@ -1,5 +1,5 @@
+import { NextRequest } from "next/server";
 import { google } from "googleapis";
-import { NextRequest, NextResponse } from "next/server";
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
@@ -11,19 +11,15 @@ const auth = new google.auth.GoogleAuth({
 
 const drive = google.drive({ version: "v3", auth });
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
-
-export async function GET(request: NextRequest, { params }: Props) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+): Promise<Response> {
   try {
-    const id = params.id;
+    const { id } = await params;
     const isThumbnail =
       request.nextUrl.searchParams.get("thumbnail") === "true";
 
-    // Get the file metadata with thumbnailLink
     const file = await drive.files.get({
       fileId: id,
       fields: "mimeType, thumbnailLink",
@@ -31,7 +27,6 @@ export async function GET(request: NextRequest, { params }: Props) {
 
     if (isThumbnail && file.data.thumbnailLink) {
       try {
-        console.log("Fetching thumbnail:", file.data.thumbnailLink);
         const thumbnailResponse = await fetch(file.data.thumbnailLink);
 
         if (!thumbnailResponse.ok) {
@@ -41,9 +36,8 @@ export async function GET(request: NextRequest, { params }: Props) {
         }
 
         const buffer = await thumbnailResponse.arrayBuffer();
-        console.log("Thumbnail size:", buffer.byteLength);
 
-        return new NextResponse(buffer, {
+        return new Response(buffer, {
           headers: {
             "Content-Type": "image/jpeg",
             "Cache-Control": "public, max-age=31536000",
@@ -51,11 +45,9 @@ export async function GET(request: NextRequest, { params }: Props) {
         });
       } catch (thumbnailError) {
         console.error("Thumbnail error:", thumbnailError);
-        // Fall through to full image fetch if thumbnail fails
       }
     }
 
-    // Get the full image content
     const response = await drive.files.get(
       {
         fileId: id,
@@ -66,7 +58,7 @@ export async function GET(request: NextRequest, { params }: Props) {
 
     const stream = response.data as unknown as ReadableStream;
 
-    return new NextResponse(stream, {
+    return new Response(stream, {
       headers: {
         "Content-Type": file.data.mimeType || "image/jpeg",
         "Cache-Control": "public, max-age=31536000",
@@ -74,9 +66,6 @@ export async function GET(request: NextRequest, { params }: Props) {
     });
   } catch (error) {
     console.error("Error fetching image:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch image" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Failed to fetch image" }, { status: 500 });
   }
 }
