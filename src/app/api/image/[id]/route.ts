@@ -13,10 +13,9 @@ const drive = google.drive({ version: "v3", auth });
 
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const params = await context.params;
     const id = params.id;
     const isThumbnail =
       request.nextUrl.searchParams.get("thumbnail") === "true";
