@@ -11,11 +11,11 @@ const auth = new google.auth.GoogleAuth({
 
 const drive = google.drive({ version: "v3", auth });
 
-type Props = {
+interface Props {
   params: {
     id: string;
   };
-};
+}
 
 export async function GET(request: NextRequest, { params }: Props) {
   try {
