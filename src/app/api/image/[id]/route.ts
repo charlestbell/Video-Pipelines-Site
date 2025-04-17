@@ -13,41 +13,35 @@ const drive = google.drive({ version: "v3", auth });
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-): Promise<Response> {
-  try {
-    const { id } = await params;
-    const isThumbnail =
-      request.nextUrl.searchParams.get("thumbnail") === "true";
+  { params }: { params: { id: string } }
+) {
+  const id = params.id;
+  const isThumbnail = request.nextUrl.searchParams.get("thumbnail") === "true";
 
+  try {
     const file = await drive.files.get({
       fileId: id,
       fields: "mimeType, thumbnailLink",
     });
 
     if (isThumbnail && file.data.thumbnailLink) {
-      try {
-        const thumbnailResponse = await fetch(file.data.thumbnailLink);
+      const thumbnailResponse = await fetch(file.data.thumbnailLink);
 
-        if (!thumbnailResponse.ok) {
-          throw new Error(
-            `Thumbnail fetch failed: ${thumbnailResponse.status}`
-          );
-        }
-
-        const buffer = await thumbnailResponse.arrayBuffer();
-
-        return new Response(buffer, {
-          headers: {
-            "Content-Type": "image/jpeg",
-            "Cache-Control": "public, max-age=31536000",
-          },
-        });
-      } catch (thumbnailError) {
-        console.error("Thumbnail error:", thumbnailError);
+      if (!thumbnailResponse.ok) {
+        throw new Error(`Thumbnail fetch failed: ${thumbnailResponse.status}`);
       }
+
+      const buffer = await thumbnailResponse.arrayBuffer();
+
+      return new Response(buffer, {
+        headers: {
+          "Content-Type": "image/jpeg",
+          "Cache-Control": "public, max-age=31536000",
+        },
+      });
     }
 
+    // Fetch the full image content
     const response = await drive.files.get(
       {
         fileId: id,
@@ -66,6 +60,6 @@ export async function GET(
     });
   } catch (error) {
     console.error("Error fetching image:", error);
-    return Response.json({ error: "Failed to fetch image" }, { status: 500 });
+    return new Response("Failed to fetch image", { status: 500 });
   }
 }
