@@ -23,32 +23,28 @@ export async function GET(
       fileId: id,
       fields: "mimeType, thumbnailLink",
     });
-    console.log("FILE", file);
-    console.log("IS THUMBNAIL", isThumbnail);
-    console.log("IMAGE ID", id);
 
-    // if (isThumbnail && file.data.thumbnailLink) {
-    //   const thumbnailResponse = await fetch(file.data.thumbnailLink);
+    if (isThumbnail && file.data.thumbnailLink) {
+      const thumbnailResponse = await fetch(file.data.thumbnailLink);
 
-    //   if (!thumbnailResponse.ok) {
-    //     throw new Error(`Thumbnail fetch failed: ${thumbnailResponse.status}`);
-    //   }
+      if (!thumbnailResponse.ok) {
+        throw new Error(`Thumbnail fetch failed: ${thumbnailResponse.status}`);
+      }
 
-    //   const buffer = await thumbnailResponse.arrayBuffer();
+      const buffer = await thumbnailResponse.arrayBuffer();
 
-    //   return new Response(buffer, {
-    //     headers: {
-    //       "Content-Type": "image/jpeg",
-    //       "Cache-Control": "public, max-age=31536000",
-    //     },
-    //   });
-    // }
+      return new Response(buffer, {
+        headers: {
+          "Content-Type": "image/jpeg",
+          "Cache-Control": "public, max-age=31536000",
+        },
+      });
+    }
 
     // Fetch the full image content
     const response = await drive.files.get(
       {
         fileId: id,
-        // fields: "webContentLink",
         alt: "media",
       },
       { responseType: "stream" }
