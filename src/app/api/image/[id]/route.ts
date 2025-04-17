@@ -48,8 +48,8 @@ export async function GET(
     const response = await drive.files.get(
       {
         fileId: id,
-        fields: "webContentLink",
-        // alt: "media",
+        // fields: "webContentLink",
+        alt: "media",
       },
       { responseType: "stream" }
     );
