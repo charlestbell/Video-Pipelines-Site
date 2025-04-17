@@ -25,6 +25,7 @@ export async function GET(
     });
     console.log("FILE", file);
     console.log("IS THUMBNAIL", isThumbnail);
+    console.log("IMAGE ID", id);
 
     // if (isThumbnail && file.data.thumbnailLink) {
     //   const thumbnailResponse = await fetch(file.data.thumbnailLink);
@@ -47,7 +48,8 @@ export async function GET(
     const response = await drive.files.get(
       {
         fileId: id,
-        alt: "media",
+        fields: "webContentLink",
+        // alt: "media",
       },
       { responseType: "stream" }
     );
