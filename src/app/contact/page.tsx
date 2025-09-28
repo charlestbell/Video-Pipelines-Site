@@ -1,40 +1,40 @@
-"use client";
-import { motion } from "framer-motion";
-import { useState } from "react";
+'use client'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+    name: '',
+    email: '',
+    message: '',
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+    e.preventDefault()
+    setIsSubmitting(true)
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
+      const response = await fetch('/api/contact', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      });
+      })
 
       if (response.ok) {
-        alert("Message sent successfully!");
-        setFormData({ name: "", email: "", message: "" });
+        alert('Message sent successfully!')
+        setFormData({ name: '', email: '', message: '' })
       } else {
-        alert("Failed to send message. Please try again.");
+        alert('Failed to send message. Please try again.')
       }
     } catch (error) {
-      alert("An error occurred. Please try again.");
+      alert('An error occurred. Please try again.')
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen pt-32 px-4">
@@ -61,9 +61,7 @@ export default function Contact() {
               required
               className="w-full p-3 bg-[#282C30] rounded-lg border border-gray-700 text-gray-100 focus:outline-none focus:border-gray-500"
               value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
+              onChange={e => setFormData({ ...formData, name: e.target.value })}
             />
           </motion.div>
 
@@ -80,7 +78,7 @@ export default function Contact() {
               required
               className="w-full p-3 bg-[#282C30] rounded-lg border border-gray-700 text-gray-100 focus:outline-none focus:border-gray-500"
               value={formData.email}
-              onChange={(e) =>
+              onChange={e =>
                 setFormData({ ...formData, email: e.target.value })
               }
             />
@@ -99,7 +97,7 @@ export default function Contact() {
               rows={6}
               className="w-full p-3 bg-[#282C30] rounded-lg border border-gray-700 text-gray-100 focus:outline-none focus:border-gray-500"
               value={formData.message}
-              onChange={(e) =>
+              onChange={e =>
                 setFormData({ ...formData, message: e.target.value })
               }
             />
@@ -113,7 +111,7 @@ export default function Contact() {
             className="w-full py-3 bg-[#3A3F44] text-gray-100 rounded-lg hover:bg-[#444A50] transition-colors duration-200"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Sending..." : "Send Message"}
+            {isSubmitting ? 'Sending...' : 'Send Message'}
           </motion.button>
         </form>
 
@@ -154,5 +152,5 @@ export default function Contact() {
         </div>
       </div>
     </div>
-  );
+  )
 }

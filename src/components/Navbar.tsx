@@ -1,14 +1,14 @@
-"use client";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { Roboto } from "next/font/google";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+'use client'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { Roboto } from 'next/font/google'
+import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 const roboto = Roboto({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-});
+  weight: ['400', '700'],
+  subsets: ['latin'],
+})
 
 const AnimatedCharacters = ({
   text,
@@ -16,14 +16,14 @@ const AnimatedCharacters = ({
   delay,
   className,
 }: {
-  text: string;
-  bold?: boolean;
-  delay: number;
-  className: string;
+  text: string
+  bold?: boolean
+  delay: number
+  className: string
 }) => {
   return (
-    <span className={bold ? "font-bold" : ""}>
-      {text.split("").map((char, index) => (
+    <span className={bold ? 'font-bold' : ''}>
+      {text.split('').map((char, index) => (
         <motion.span
           key={index}
           initial={{ opacity: 0, y: -5 }}
@@ -31,28 +31,28 @@ const AnimatedCharacters = ({
           transition={{
             duration: 0.2,
             delay: delay + 0.05 * index,
-            ease: "easeOut",
+            ease: 'easeOut',
           }}
-          className={`inline-block ${className || ""}`}
+          className={`inline-block ${className || ''}`}
         >
-          {char === " " ? "\u00A0" : char}
+          {char === ' ' ? '\u00A0' : char}
         </motion.span>
       ))}
     </span>
-  );
-};
+  )
+}
 
 const NavLink = ({
   href,
   children,
   index,
 }: {
-  href: string;
-  children: React.ReactNode;
-  index: number;
+  href: string
+  children: React.ReactNode
+  index: number
 }) => {
-  const pathname = usePathname();
-  const isActive = pathname === href;
+  const pathname = usePathname()
+  const isActive = pathname === href
 
   return (
     <motion.div
@@ -61,30 +61,30 @@ const NavLink = ({
       transition={{
         duration: 0.5,
         delay: 0.8 + index * 0.1,
-        ease: "easeOut",
+        ease: 'easeOut',
       }}
     >
       <Link
         href={href}
         className={`text-sm hover:text-white transition-colors ${
-          isActive ? "text-white" : "text-gray-400"
+          isActive ? 'text-white' : 'text-gray-400'
         }`}
       >
         {children}
       </Link>
     </motion.div>
-  );
-};
+  )
+}
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navItems = [
-    { href: "/", label: "Recent Work" },
-    { href: "/stills", label: "Stills" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
-  ];
+    { href: '/', label: 'Recent Work' },
+    { href: '/stills', label: 'Stills' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' },
+  ]
 
   return (
     <motion.nav
@@ -149,7 +149,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         <motion.div
           initial={false}
-          animate={{ height: isMenuOpen ? "auto" : 0 }}
+          animate={{ height: isMenuOpen ? 'auto' : 0 }}
           className="md:hidden overflow-hidden"
         >
           <div className="pb-4 space-y-2">
@@ -167,5 +167,5 @@ export default function Navbar() {
         </motion.div>
       </div>
     </motion.nav>
-  );
+  )
 }

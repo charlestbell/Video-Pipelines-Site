@@ -1,70 +1,70 @@
-"use client";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+'use client'
+import { motion } from 'framer-motion'
+import { useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 
 const content = [
   {
-    title: "Make It Yours",
-    description: "Multi-product campaign",
+    title: 'Make It Yours',
+    description: 'Multi-product campaign',
     url: `<iframe src="https://drive.google.com/file/d/17yySkKi9AcX9Wa6esURGzQNrJzy8urX0/preview" width="640" height="480" allow="autoplay"></iframe>`,
   },
   {
-    title: "Triple Run: Our Strongest Stuff Yet",
-    description: "Product line promotion",
-    role: "Camera/Edit",
+    title: 'Triple Run: Our Strongest Stuff Yet',
+    description: 'Product line promotion',
+    role: 'Camera/Edit',
     url: `https://www.youtube.com/watch?v=pXJ7gD09ujM`,
   },
   {
-    title: "YakAttack Phone Holder",
-    description: "30s Product Ad",
+    title: 'YakAttack Phone Holder',
+    description: '30s Product Ad',
     url: '<iframe src="https://drive.google.com/file/d/1CeCkdyT6JqX6a-MnRSgDVR5kGOu9PzRd/preview" width="640" height="480" allow="autoplay"></iframe>',
   },
   {
-    title: "Nomad: Adapt To The Mission",
-    description: "Product promotion",
+    title: 'Nomad: Adapt To The Mission',
+    description: 'Product promotion',
     url: `https://www.youtube.com/watch?v=jcEQmqp-iJ4`,
   },
   {
-    title: "Tacoma Walkaround",
-    description: "Youtube Content",
-    url: "https://www.youtube.com/watch?v=2tcVrRuHBic",
+    title: 'Tacoma Walkaround',
+    description: 'Youtube Content',
+    url: 'https://www.youtube.com/watch?v=2tcVrRuHBic',
   },
   {
     title: "Beginner's Guide to Shocks and Springs",
-    description: "Educational Youtube Content",
-    url: "https://www.youtube.com/watch?v=oyc1tt6qO94",
+    description: 'Educational Youtube Content',
+    url: 'https://www.youtube.com/watch?v=oyc1tt6qO94',
   },
   {
-    title: "We Guide - Overland Trip VII - West Virginia",
-    description: "Adventure Youtube Content",
-    role: "Camera/Edit",
-    url: "https://www.youtube.com/watch?v=dzgcsnf8E_U",
+    title: 'We Guide - Overland Trip VII - West Virginia',
+    description: 'Adventure Youtube Content',
+    role: 'Camera/Edit',
+    url: 'https://www.youtube.com/watch?v=dzgcsnf8E_U',
   },
   {
-    title: "YakAttack: Stop Motion Ad",
-    description: "Multi-product campaign",
+    title: 'YakAttack: Stop Motion Ad',
+    description: 'Multi-product campaign',
     url: `<iframe src="https://drive.google.com/file/d/17z3j6dK2ZfbzyFZMjAewQAn7hJ1_oOoG/preview" width="640" height="480" allow="autoplay"></iframe>`,
   },
-];
+]
 
 const VideoCard = ({
   item,
   index,
 }: {
-  item: (typeof content)[0];
-  index: number;
+  item: (typeof content)[0]
+  index: number
 }) => {
-  const ref = useRef(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const ref = useRef(null)
+  const [isLoaded, setIsLoaded] = useState(false)
   const isInView = useInView(ref, {
     once: true,
     amount: 0.1,
-  });
+  })
 
   const getEmbedUrl = (url: string) => {
-    if (url.includes("youtube.com/watch")) {
-      const videoId = url.split("v=")[1].split("&")[0];
+    if (url.includes('youtube.com/watch')) {
+      const videoId = url.split('v=')[1].split('&')[0]
       return `<iframe 
         width="100%" 
         height="100%" 
@@ -74,39 +74,39 @@ const VideoCard = ({
         allowfullscreen 
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease-in;" 
         onload="this.style.opacity = '1'; window.postMessage('iframe-${index}-loaded', '*')"
-      ></iframe>`;
+      ></iframe>`
     }
-    if (url.includes("drive.google.com")) {
+    if (url.includes('drive.google.com')) {
       return url.replace(
         'width="640" height="480" allow="autoplay"',
         `style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease-in;" allow="autoplay" allowfullscreen onload="this.style.opacity = '1'; window.postMessage('iframe-${index}-loaded', '*')"`
-      );
+      )
     }
-    return url;
-  };
+    return url
+  }
 
   useEffect(() => {
     const handleIframeLoad = () => {
-      console.log("Iframe loaded!");
-      setIsLoaded(true);
-    };
+      console.log('Iframe loaded!')
+      setIsLoaded(true)
+    }
 
     const handleMessage = (event: MessageEvent) => {
       if (event.data === `iframe-${index}-loaded`) {
-        console.log("Google Drive iframe loaded!");
-        setIsLoaded(true);
+        console.log('Google Drive iframe loaded!')
+        setIsLoaded(true)
       }
-    };
+    }
 
-    const iframe = document.querySelector(`iframe[data-index="${index}"]`);
-    iframe?.addEventListener("iframeLoaded", handleIframeLoad);
-    window.addEventListener("message", handleMessage);
+    const iframe = document.querySelector(`iframe[data-index="${index}"]`)
+    iframe?.addEventListener('iframeLoaded', handleIframeLoad)
+    window.addEventListener('message', handleMessage)
 
     return () => {
-      iframe?.removeEventListener("iframeLoaded", handleIframeLoad);
-      window.removeEventListener("message", handleMessage);
-    };
-  }, [index]);
+      iframe?.removeEventListener('iframeLoaded', handleIframeLoad)
+      window.removeEventListener('message', handleMessage)
+    }
+  }, [index])
 
   return (
     <div className="w-full mb-16">
@@ -127,7 +127,7 @@ const VideoCard = ({
           }
           transition={{
             duration: 0.8,
-            ease: "easeOut",
+            ease: 'easeOut',
             delay: index * 0.4,
           }}
           className="absolute top-0 left-0 w-full h-full"
@@ -136,7 +136,7 @@ const VideoCard = ({
             className="w-full h-full"
             dangerouslySetInnerHTML={{
               __html: getEmbedUrl(item.url).replace(
-                "iframe",
+                'iframe',
                 `iframe data-index="${index}"`
               ),
             }}
@@ -172,8 +172,8 @@ const VideoCard = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default function Home() {
   return (
@@ -188,5 +188,5 @@ export default function Home() {
         ))}
       </motion.div>
     </div>
-  );
+  )
 }
