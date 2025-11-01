@@ -1,23 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: NextRequest) {
-  // Temporary diagnostic logging (remove after debugging)
-  console.log('Environment check:', {
-    hasEmailUser: !!process.env.EMAIL_USER,
-    emailUserLength: process.env.EMAIL_USER?.length || 0,
-    hasEmailPassword: !!process.env.EMAIL_APP_PASSWORD,
-    emailPasswordLength: process.env.EMAIL_APP_PASSWORD?.length || 0,
-    nodeEnv: process.env.NODE_ENV,
-  })
-
   try {
-    // Validate environment variables
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_APP_PASSWORD) {
-      console.error('Missing email credentials:', {
-        hasEmailUser: !!process.env.EMAIL_USER,
-        hasEmailPassword: !!process.env.EMAIL_APP_PASSWORD,
-      })
+    // Validate environment variable
+    if (!process.env.RESEND_API_KEY) {
+      console.error('Missing RESEND_API_KEY environment variable')
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 }
@@ -26,41 +16,9 @@ export async function POST(request: NextRequest) {
 
     const { name, email, message } = await request.json()
 
-    // Create a transporter using Gmail
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD,
-      },
-      // Increase timeouts for Railway's network
-      connectionTimeout: 30000, // 30 seconds
-      greetingTimeout: 30000,
-      socketTimeout: 30000,
-      // Retry connection
-      pool: true,
-      maxConnections: 1,
-      maxMessages: 3,
-    })
-
-    // Verify connection before sending (with timeout)
-    try {
-      await Promise.race([
-        transporter.verify(),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Verification timeout')), 20000)
-        ),
-      ])
-    } catch (verifyError) {
-      console.error('SMTP verification failed:', verifyError)
-      // Continue anyway, sometimes verify fails but send works
-    }
-
-    // Email content
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
+    // Send email using Resend
+    await resend.emails.send({
+      from: 'contact@videopipelines.com',
       to: 'videopipelines@gmail.com',
       subject: `New Contact Form Message from ${name}`,
       text: `
@@ -71,10 +29,7 @@ export async function POST(request: NextRequest) {
         ${message}
       `,
       replyTo: email,
-    }
-
-    // Send email
-    await transporter.sendMail(mailOptions)
+    })
 
     return NextResponse.json(
       { message: 'Email sent successfully' },
