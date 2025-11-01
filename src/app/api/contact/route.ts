@@ -35,14 +35,28 @@ export async function POST(request: NextRequest) {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_APP_PASSWORD,
       },
-      // Add timeout and connection pool settings
-      connectionTimeout: 10000, // 10 seconds
-      greetingTimeout: 5000,
-      socketTimeout: 10000,
+      // Increase timeouts for Railway's network
+      connectionTimeout: 30000, // 30 seconds
+      greetingTimeout: 30000,
+      socketTimeout: 30000,
+      // Retry connection
+      pool: true,
+      maxConnections: 1,
+      maxMessages: 3,
     })
 
-    // Verify connection before sending
-    await transporter.verify()
+    // Verify connection before sending (with timeout)
+    try {
+      await Promise.race([
+        transporter.verify(),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Verification timeout')), 20000)
+        ),
+      ])
+    } catch (verifyError) {
+      console.error('SMTP verification failed:', verifyError)
+      // Continue anyway, sometimes verify fails but send works
+    }
 
     // Email content
     const mailOptions = {
