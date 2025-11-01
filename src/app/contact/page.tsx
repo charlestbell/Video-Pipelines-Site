@@ -131,12 +131,13 @@ export default function Contact() {
               >
                 videopipelines@gmail.com
               </a>
-              <a
+              {/* Phone number removed for now because google voice numbers aren't static if you're not using them */}
+              {/* <a
                 href="tel:+18044919596"
                 className="text-gray-300 hover:text-gray-100 transition-colors"
               >
                 (804) 491-9596
-              </a>
+              </a> */}
             </div>
           </motion.div>
 
