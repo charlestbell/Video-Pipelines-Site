@@ -86,12 +86,14 @@ const Stills = () => {
           const data = await response.json()
           if (data.images && Array.isArray(data.images)) {
             // Convert the data to match our ImageType interface
-            const loadedImages: ImageType[] = data.images.map((img: any) => ({
-              id: img.id,
-              name: img.name,
-              webContentLink: '', // Not needed for local images
-              thumbnailLink: '', // Not needed for local images
-            }))
+            const loadedImages: ImageType[] = data.images.map(
+              (img: { id: string; name: string }) => ({
+                id: img.id,
+                name: img.name,
+                webContentLink: '', // Not needed for local images
+                thumbnailLink: '', // Not needed for local images
+              })
+            )
 
             setImages(loadedImages)
           }
